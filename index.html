@@ -607,4 +607,140 @@
                             <span class="package-type">MENSAL</span>
                         </div>
                         <div class="package-item">
-                            <span class="price">180 MT</s
+                            <span class="price">180 MT</span>
+                            <span class="data">5120MB</span>
+                        </div>
+                        <button class="buy-btn" onclick="openModal('Mensal - 5120MB', '180 MT')">Comprar Agora</button>
+                    </div>
+
+                    <div class="package-card">
+                        <div class="package-header">
+                            <span class="package-type">MENSAL</span>
+                        </div>
+                        <div class="package-item">
+                            <span class="price">280 MT</span>
+                            <span class="data">10240MB</span>
+                        </div>
+                        <button class="buy-btn" onclick="openModal('Mensal - 10240MB', '280 MT')">Comprar Agora</button>
+                    </div>
+
+                    <div class="package-card">
+                        <div class="package-header">
+                            <span class="package-type">MENSAL</span>
+                        </div>
+                        <div class="package-item">
+                            <span class="price">560 MT</span>
+                            <span class="data">20480MB</span>
+                        </div>
+                        <button class="buy-btn" onclick="openModal('Mensal - 20480MB', '560 MT')">Comprar Agora</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formas de Pagamento -->
+            <div id="pagamento" class="payment-section">
+                <h3>💳 Formas de Pagamento</h3>
+                <div class="payment-options">
+                    <div class="payment-card">
+                        <div class="payment-method">M-Pesa</div>
+                        <div class="payment-number">841945373</div>
+                        <div class="payment-name">Amilton Luis</div>
+                        <button class="copy-btn" onclick="copyNumber('841945373', 'M-Pesa')">📋 Copiar</button>
+                    </div>
+
+                    <div class="payment-card">
+                        <div class="payment-method">E-Mola</div>
+                        <div class="payment-number">874762842</div>
+                        <div class="payment-name">Amilton Luis</div>
+                        <button class="copy-btn" onclick="copyNumber('874762842', 'E-Mola')">📋 Copiar</button>
+                    </div>
+                </div>
+
+                <div class="note">
+                    <strong>📌 NB: Não pode ter txuna...</strong><br>
+                    Após o pagamento, envie o comprovativo e o número pelo WhatsApp.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="buyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h3>🛒 Finalizar Compra</h3>
+            <div class="form-group">
+                <label>Pacote:</label>
+                <input type="text" id="selectedPackage" readonly>
+            </div>
+            <div class="form-group">
+                <label>Seu número:</label>
+                <input type="tel" id="phoneNumber" placeholder="84XXXXXXX" maxlength="9">
+            </div>
+            <button class="whatsapp-submit" onclick="sendToWhatsApp()">
+                📱 Enviar WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Partículas leves
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 20; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDelay = Math.random() * 8 + 's';
+                container.appendChild(p);
+            }
+        }
+        createParticles();
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function copyNumber(number, method) {
+            navigator.clipboard.writeText(number).then(() => {
+                alert(`✅ ${method} copiado: ${number}`);
+            });
+        }
+
+        let selectedPackage = '';
+        let selectedPrice = '';
+
+        function openModal(pkg, price) {
+            selectedPackage = pkg;
+            selectedPrice = price;
+            document.getElementById('selectedPackage').value = pkg + ' - ' + price;
+            document.getElementById('buyModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('buyModal').style.display = 'none';
+            document.getElementById('phoneNumber').value = '';
+        }
+
+        function sendToWhatsApp() {
+            const phone = document.getElementById('phoneNumber').value;
+            
+            if (!phone || phone.length < 9) {
+                alert('❌ Digite um número válido!');
+                return;
+            }
+
+            const msg = `Olá! Quero comprar:\n\n📦 *${selectedPackage}*\n📱 *Número:* ${phone}\n💰 *Valor:* ${selectedPrice}`;
+            const url = `https://wa.me/258841945373?text=${encodeURIComponent(msg)}`;
+            window.open(url, '_blank');
+            closeModal();
+        }
+
+        window.onclick = function(e) {
+            if (e.target == document.getElementById('buyModal')) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
