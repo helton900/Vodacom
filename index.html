@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendas de Megas e Diamantes Vodacom</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Animação PS5 - Fundo otimizado */
+        .ps5-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: linear-gradient(45deg, #0a0a0a 0%, #1a0505 50%, #0a0a0a 100%);
+            background-size: 200% 200%;
+            animation: bgMove 10s ease infinite;
+        }
+
+        @keyframes bgMove {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Partículas leves */
+        .particle {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: rgba(220, 38, 38, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: rise 8s linear infinite;
+        }
+
+        @keyframes rise {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% {
+                transform: translateY(-100vh) translateX(50px);
+                opacity: 0;
+            }
+        }
+
+        /* Conteúdo */
+        .content {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.95) 0%, rgba(153, 27, 27, 0.95) 100%);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links button {
+            background: white;
+            color: #dc2626;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .nav-links button:hover {
+            background: #dc2626;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* WhatsApp flutuante */
+        .floating-buttons {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .whatsapp-btn, .group-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+        }
+
+        .group-btn {
+            background: #128C7E;
+        }
+
+        .whatsapp-btn:hover, .group-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 120px 1rem 60px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.2) 0%, transparent 100%);
+        }
+
+        .hero h1 {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px rgba(220, 38, 38, 0.6);
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            opacity: 0.9;
+        }
+
+        .alert-box {
+            background: rgba(220, 38, 38, 0.2);
+            border: 2px solid #dc2626;
+            padding: 1rem;
+            border-radius: 15px;
+            margin: 2rem auto;
+            max-width: 90%;
+        }
+
+        /* Pacotes */
+        .packages-section {
+            padding: 40px 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .packages-section h2 {
+            text-align: center;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            margin-bottom: 2rem;
+            color: #dc2626;
+            text-shadow: 0 0 15px rgba(220, 38, 38, 0.5);
+        }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .package-card {
+            background: rgba(30, 30, 30, 0.9);
+            border: 2px solid #dc2626;
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(220, 38, 38, 0.2);
+        }
+
+        .package-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(220, 38, 38, 0.4);
+        }
+
+        .package-header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .package-type {
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .package-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(220, 38, 38, 0.1);
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            transition: background 0.2s;
+        }
+
+        .package-item:hover {
+            background: rgba(220, 38, 38, 0.2);
+        }
+
+        .price {
+            font-size: clamp(1.1rem, 3vw, 1.3rem);
+            font-weight: bold;
+            color: #ff4444;
+        }
+
+        .data {
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+        }
+
+        .buy-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 1rem;
+        }
+
+        .buy-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Pagamento */
+        .payment-section {
+            background: rgba(30, 30, 30, 0.9);
+            padding: 2rem 1rem;
+            margin: 2rem 0;
+            border-radius: 20px;
+            border: 2px solid #dc2626;
+        }
+
+        .payment-section h3 {
+            text-align: center;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-bottom: 2rem;
+            color: #dc2626;
+        }
+
+        .payment-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .payment-card {
+            background: rgba(220, 38, 38, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .payment-card:hover {
+            transform: scale(1.05);
+        }
+
+        .payment-method {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            font-weight: bold;
+            color: #dc2626;
+            margin-bottom: 1rem;
+        }
+
+        .payment-number {
+            font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+            font-weight: bold;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(220, 38, 38, 0.15);
+            border-radius: 10px;
+        }
+
+        .payment-name {
+            color: #999;
+            margin-bottom: 1rem;
+        }
+
+        .copy-btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        .copy-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .note {
+            background: rgba(220, 38, 38, 0.15);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            border-left: 4px solid #dc2626;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background: #1f1f1f;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            border: 2px solid #dc2626;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #dc2626;
+        }
+
+        .modal h3 {
+            color: #dc2626;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #dc2626;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .whatsapp-submit {
+            width: 100%;
+            padding: 1.2rem;
+            background: #25D366;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .whatsapp-submit:hover {
+            transform: scale(1.05);
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .packages-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 100px 0.5rem 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fundo PS5 -->
+    <div class="ps5-background"></div>
+
+    <!-- Partículas leves -->
+    <div id="particles"></div>
+
+    <!-- Conteúdo -->
+    <div class="content">
+        <!-- Header -->
+        <header>
+            <nav>
+                <div class="logo">📱 Megas & Diamantes Vodacom</div>
+                <div class="nav-links">
+                    <button onclick="scrollToSection('diario')">Diário</button>
+                    <button onclick="scrollToSection('semanal')">Semanal</button>
+                    <button onclick="scrollToSection('mensal')">Mensal</button>
+                    <button onclick="scrollToSection('pagamento')">Pagamento</button>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Botões flutuantes -->
+        <div class="floating-buttons">
+            <div class="whatsapp-btn" onclick="window.open('https://wa.me/258841945373', '_blank')" title="WhatsApp">
+                <svg width="30" height="30" fill="white" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                </svg>
+            </div>
+            <div class="group-btn" onclick="window.open('https://chat.whatsapp.com/Jq4NdzRo2Cj3JQR0YACvca?mode=ems_copy_t', '_blank')" title="Grupo">
+                <svg width="30" height="30" fill="white" viewBox="0 0 24 24">
+                    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Hero -->
+        <div class="hero">
+            <h1>🚀 Vendas de Megas e Diamantes Vodacom</h1>
+            <p>Internet Rápida e Confiável | Ativação Imediata</p>
+            <div class="alert-box">
+                <strong>🚨⚠️ Atenção a nova tabela ⚠️🚨</strong>
+            </div>
+        </div>
+
+        <!-- Pacotes -->
+        <div class="packages-section">
+            <!-- Plano Diário -->
+            <div id="diario">
+                <h2>📅 Plano Diário 🔰</h2>
+                <div class="packages-grid">
+                    <div class="package-card">
+                        <div class="package-header">
+                            <span class="package-type">DIÁRIO</span>
+                        </div>
+                        <div class="package-item">
+                            <span class="price">10 MT</span>
+                            <span class="data">512MB</span>
+                        </div>
+                        <button class="buy-btn" onclick="openModal('Diário - 512MB', '10 MT')">Comprar Agora</button>
+                    </div>
+
+                    <div class="package-card">
+                        <div class="package-header">
+                            <span class="package-type">DIÁRIO</span>
+                        </div>
+                        <div class="package-item">
+                            <span class="price">17 MT</span>
+                            <span class="data">1024MB</span>
+                        </div>
+                        <button class="buy-btn" onclick="openModal('Diário - 1024MB', '17 MT')">Comprar Agora</button>
+                    </div>
+
+                    <div class="package-card">
+                        <div class="package-header">
+                            <span class="package-type">DIÁRIO</span>
+                        </div>
+                        <div class="package-item">
+                            <span class="price">34 MT</span>
+                            <span class="data">2048MB</span>
+                        </div>
+                        <button class="buy-btn" onclick="openModal('Diário - 2048MB', '34 MT')">Comprar Agora</button>
+                    </div>
+
+                    <div class="package-card">
+                        <div class="package-header">
+                            <span class="package-type">DIÁRIO</span>
+                        </div>
+                        <div class="package-item">
+                            <span class="price">85 MT</span>
+                            <span class="data">5120MB</span>
+                        </div>
+                        <button class="buy-btn" onclick="openModal('Diário - 5120MB', '85 MT')">Comprar Agora</button>
+                    </div>
+
+                    <div class="package-card">
+                        <div class="package-header">
+                            <span class="package-type">DIÁRIO</span>
+                        </div>
+                        <div class="package-item">
+                            <span class="price">170 MT</span>
+                            <span class="data">10240MB</span>
+                        </div>
+                        <button class="buy-btn" onclick="openModal('Diário - 10240MB', '170 MT')">Comprar Agora</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plano Semanal -->
+            <div id="semanal">
+                <h2>📅 Plano Semanal 🔰</h2>
+                <div class="packages-grid">
+                    <div class="package-card">
+                        <div class="package-header">
+                            <span class="package-type">SEMANAL</span>
+                        </div>
+                        <div class="package-item">
+                            <span class="price">85 MT</span>
+                            <span class="data">2.9GB</span>
+                        </div>
+                        <button class="buy-btn" onclick="openModal('Semanal - 2.9GB', '85 MT')">Comprar Agora</button>
+                    </div>
+
+                    <div class="package-card">
+                        <div class="package-header">
+                            <span class="package-type">SEMANAL</span>
+                        </div>
+                        <div class="package-item">
+                            <span class="price">100 MT</span>
+                            <span class="data">3.4GB</span>
+                        </div>
+                        <button class="buy-btn" onclick="openModal('Semanal - 3.4GB', '100 MT')">Comprar Agora</button>
+                    </div>
+
+                    <div class="package-card">
+                        <div class="package-header">
+                            <span class="package-type">SEMANAL</span>
+                        </div>
+                        <div class="package-item">
+                            <span class="price">150 MT</span>
+                            <span class="data">5.2GB</span>
+                        </div>
+                        <button class="buy-btn" onclick="openModal('Semanal - 5.2GB', '150 MT')">Comprar Agora</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plano Mensal -->
+            <div id="mensal">
+                <h2>📅 Plano Mensal 🔰</h2>
+                <div class="packages-grid">
+                    <div class="package-card">
+                        <div class="package-header">
+                            <span class="package-type">MENSAL</span>
+                        </div>
+                        <div class="package-item">
+                            <span class="price">180 MT</s
